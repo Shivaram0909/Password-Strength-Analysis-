@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Password Strength Analyzer</title>
+
+<style>
+body{
+    font-family:Verdana, sans-serif;
+    background:#eef5ff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.box{
+    background:white;
+    width:350px;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px gray;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#4CAF50;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.progress{
+    width:100%;
+    height:12px;
+    background:#ddd;
+    border-radius:10px;
+    margin-top:15px;
+}
+
+.bar{
+    height:12px;
+    width:0%;
+    border-radius:10px;
+}
+
+#message{
+    margin-top:15px;
+    font-weight:bold;
+}
+
+#tips{
+    color:#444;
+    margin-top:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+<h2>Password Strength Analyzer</h2>
+
+<input type="password" id="password" placeholder="Enter Password">
+
+<button onclick="analyze()">Analyze Password</button>
+
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+<p id="message"></p>
+
+<div id="tips"></div>
+
+</div>
+
+<script>
+
+function analyze(){
+
+let p=document.getElementById("password").value;
+let score=0;
+let tips=[];
+
+if(p.length>=8) score++;
+else tips.push("✔ Use at least 8 characters");
+
+if(/[A-Z]/.test(p)) score++;
+else tips.push("✔ Add an uppercase letter");
+
+if(/[a-z]/.test(p)) score++;
+else tips.push("✔ Add a lowercase letter");
+
+if(/[0-9]/.test(p)) score++;
+else tips.push("✔ Add a number");
+
+if(/[!@#$%^&*]/.test(p)) score++;
+else tips.push("✔ Add a special character");
+
+let bar=document.getElementById("bar");
+let msg=document.getElementById("message");
+
+if(score<=2){
+bar.style.width="30%";
+bar.style.background="red";
+msg.innerHTML="Weak Password";
+}
+else if(score==3 || score==4){
+bar.style.width="70%";
+bar.style.background="orange";
+msg.innerHTML="Medium Password";
+}
+else{
+bar.style.width="100%";
+bar.style.background="green";
+msg.innerHTML="Strong Password";
+}
+
+if(tips.length==0){
+document.getElementById("tips").innerHTML="Excellent! Your password is secure.";
+}
+else{
+document.getElementById("tips").innerHTML=tips.join("<br>");
+}
+
+}
+
+</script>
+
+</body>
+</html>
